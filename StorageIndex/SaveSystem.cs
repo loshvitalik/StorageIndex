@@ -23,7 +23,7 @@ namespace StorageIndex
 			if (!File.Exists(UsersDB))
 			{
 				File.Create(UsersDB).Close();
-				File.AppendAllText(UsersDB, @"[{""Id"":0,""Group"":0,""Login"":""admin"",""Password"":""d033e22ae348aeb5660fc2140aec35850c4da997""}]");
+				File.AppendAllText(UsersDB, @"[{""Id"":0,""Group"":0,""Login"":""admin"",""Password"":""d033e22ae348aeb5660fc2140aec35850c4da997"",""DbLogin"":""sa"",""DbPassword"":""1""}]");
 			}
 		}
 
