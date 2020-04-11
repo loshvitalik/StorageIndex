@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище db_dataModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="files">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="extension" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="sizeKb" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="folderFile">
+          <Key>
+            <PropertyRef Name="folderId" />
+            <PropertyRef Name="fileId" />
+          </Key>
+          <Property Name="folderId" Type="int" Nullable="false" />
+          <Property Name="fileId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="folders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mediaTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="storage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="capacityMb" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="storageFolder">
+          <Key>
+            <PropertyRef Name="storageId" />
+            <PropertyRef Name="folderId" />
+          </Key>
+          <Property Name="storageId" Type="int" Nullable="false" />
+          <Property Name="folderId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__folderFil__fileI__44FF419A">
+          <End Role="files" Type="Self.files" Multiplicity="1" />
+          <End Role="folderFile" Type="Self.folderFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="files">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="folderFile">
+              <PropertyRef Name="fileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__folderFil__folde__440B1D61">
+          <End Role="folders" Type="Self.folders" Multiplicity="1" />
+          <End Role="folderFile" Type="Self.folderFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="folders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="folderFile">
+              <PropertyRef Name="folderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__storage__type__398D8EEE">
+          <End Role="mediaTypes" Type="Self.mediaTypes" Multiplicity="1" />
+          <End Role="storage" Type="Self.storage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mediaTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="storage">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__storageFo__folde__412EB0B6">
+          <End Role="folders" Type="Self.folders" Multiplicity="1" />
+          <End Role="storageFolder" Type="Self.storageFolder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="folders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="storageFolder">
+              <PropertyRef Name="folderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__storageFo__stora__403A8C7D">
+          <End Role="storage" Type="Self.storage" Multiplicity="1" />
+          <End Role="storageFolder" Type="Self.storageFolder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="storage">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="storageFolder">
+              <PropertyRef Name="storageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище db_dataModelContainer">
+          <EntitySet Name="files" EntityType="Self.files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="folderFile" EntityType="Self.folderFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="folders" EntityType="Self.folders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mediaTypes" EntityType="Self.mediaTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="storage" EntityType="Self.storage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="storageFolder" EntityType="Self.storageFolder" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__folderFil__fileI__44FF419A" Association="Self.FK__folderFil__fileI__44FF419A">
+            <End Role="files" EntitySet="files" />
+            <End Role="folderFile" EntitySet="folderFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__folderFil__folde__440B1D61" Association="Self.FK__folderFil__folde__440B1D61">
+            <End Role="folders" EntitySet="folders" />
+            <End Role="folderFile" EntitySet="folderFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__storage__type__398D8EEE" Association="Self.FK__storage__type__398D8EEE">
+            <End Role="mediaTypes" EntitySet="mediaTypes" />
+            <End Role="storage" EntitySet="storage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__storageFo__folde__412EB0B6" Association="Self.FK__storageFo__folde__412EB0B6">
+            <End Role="folders" EntitySet="folders" />
+            <End Role="storageFolder" EntitySet="storageFolder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__storageFo__stora__403A8C7D" Association="Self.FK__storageFo__stora__403A8C7D">
+            <End Role="storage" EntitySet="storage" />
+            <End Role="storageFolder" EntitySet="storageFolder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_dataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="files">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sizeKb" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="folders" Relationship="Self.folderFile" FromRole="files" ToRole="folders" />
+        </EntityType>
+        <EntityType Name="folders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="files" Relationship="Self.folderFile" FromRole="folders" ToRole="files" />
+          <NavigationProperty Name="storage" Relationship="Self.storageFolder" FromRole="folders" ToRole="storage" />
+        </EntityType>
+        <EntityType Name="mediaTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="storage" Relationship="Self.FK__storage__type__398D8EEE" FromRole="mediaTypes" ToRole="storage" />
+        </EntityType>
+        <EntityType Name="storage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="capacityMb" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="mediaTypes" Relationship="Self.FK__storage__type__398D8EEE" FromRole="storage" ToRole="mediaTypes" />
+          <NavigationProperty Name="folders" Relationship="Self.storageFolder" FromRole="storage" ToRole="folders" />
+        </EntityType>
+        <Association Name="FK__storage__type__398D8EEE">
+          <End Role="mediaTypes" Type="Self.mediaTypes" Multiplicity="1" />
+          <End Role="storage" Type="Self.storage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mediaTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="storage">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="folderFile">
+          <End Role="files" Type="Self.files" Multiplicity="*" />
+          <End Role="folders" Type="Self.folders" Multiplicity="*" />
+        </Association>
+        <Association Name="storageFolder">
+          <End Role="folders" Type="Self.folders" Multiplicity="*" />
+          <End Role="storage" Type="Self.storage" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="db_dataContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="files" EntityType="Self.files" />
+          <EntitySet Name="folders" EntityType="Self.folders" />
+          <EntitySet Name="mediaTypes" EntityType="Self.mediaTypes" />
+          <EntitySet Name="storage" EntityType="Self.storage" />
+          <AssociationSet Name="FK__storage__type__398D8EEE" Association="Self.FK__storage__type__398D8EEE">
+            <End Role="mediaTypes" EntitySet="mediaTypes" />
+            <End Role="storage" EntitySet="storage" />
+          </AssociationSet>
+          <AssociationSet Name="folderFile" Association="Self.folderFile">
+            <End Role="files" EntitySet="files" />
+            <End Role="folders" EntitySet="folders" />
+          </AssociationSet>
+          <AssociationSet Name="storageFolder" Association="Self.storageFolder">
+            <End Role="folders" EntitySet="folders" />
+            <End Role="storage" EntitySet="storage" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище db_dataModelContainer" CdmEntityContainer="db_dataContext">
+          <EntitySetMapping Name="files">
+            <EntityTypeMapping TypeName="db_dataModel.files">
+              <MappingFragment StoreEntitySet="files">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="extension" ColumnName="extension" />
+                <ScalarProperty Name="sizeKb" ColumnName="sizeKb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="folders">
+            <EntityTypeMapping TypeName="db_dataModel.folders">
+              <MappingFragment StoreEntitySet="folders">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mediaTypes">
+            <EntityTypeMapping TypeName="db_dataModel.mediaTypes">
+              <MappingFragment StoreEntitySet="mediaTypes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="storage">
+            <EntityTypeMapping TypeName="db_dataModel.storage">
+              <MappingFragment StoreEntitySet="storage">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="capacityMb" ColumnName="capacityMb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="folderFile" TypeName="db_dataModel.folderFile" StoreEntitySet="folderFile">
+            <EndProperty Name="files">
+              <ScalarProperty Name="id" ColumnName="fileId" />
+            </EndProperty>
+            <EndProperty Name="folders">
+              <ScalarProperty Name="id" ColumnName="folderId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="storageFolder" TypeName="db_dataModel.storageFolder" StoreEntitySet="storageFolder">
+            <EndProperty Name="folders">
+              <ScalarProperty Name="id" ColumnName="folderId" />
+            </EndProperty>
+            <EndProperty Name="storage">
+              <ScalarProperty Name="id" ColumnName="storageId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,54 @@
+﻿<Window x:Class="StorageIndex.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StorageIndex"
+        mc:Ignorable="d"
+        Title="Storage index" Height="401.742" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="storageViewSource" d:DesignSource="{d:DesignInstance {x:Type local:storage}, CreateList=True}"/>
+        <CollectionViewSource x:Key="foldersViewSource" d:DesignSource="{d:DesignInstance {x:Type local:folders}, CreateList=True}"/>
+        <CollectionViewSource x:Key="filesViewSource" d:DesignSource="{d:DesignInstance {x:Type local:files}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource storageViewSource}" Height="399" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="361*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="storageDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding}" Margin="10,62,530,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.ColumnSpan="2" SelectionChanged="storageDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding name}" Header="Название" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="typeColumn" Binding="{Binding type}" Header="Тип" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="capacityMbColumn" Binding="{Binding capacityMb}" Header="Ёмкость (МБ)" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="foldersDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding Source={StaticResource foldersViewSource}}" Margin="197,62,352,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1" SelectionChanged="foldersDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="nameColumn1" Binding="{Binding name}" Header="Имя папки" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="filesDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding Source={StaticResource filesViewSource}}" Margin="375,62,10,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="nameColumn2" Binding="{Binding name}" Header="Имя файла" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="extensionColumn" Binding="{Binding extension}" Header="Расширение" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="sizeKbColumn" Binding="{Binding sizeKb}" Header="Размер (кБ)" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="saveButton" Visibility="Hidden" Content="Сохранить изменения" Grid.Column="1" HorizontalAlignment="Left" Margin="502,338,0,0" VerticalAlignment="Top" Width="210" Click="SaveButton_OnClick"/>
+        <ComboBox x:Name="searchType" Grid.Column="1" HorizontalAlignment="Left" Margin="502,36,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
+            <ComboBoxItem Content="по устройствам"/>
+            <ComboBoxItem Content="по папкам"/>
+            <ComboBoxItem Content="по файлам"/>
+        </ComboBox>
+        <Button x:Name="searchButton" Content="Поиск" Grid.Column="1" HorizontalAlignment="Left" Margin="637,36,0,0" VerticalAlignment="Top" Width="75" Click="searchButton_Click"/>
+        <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="21" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="555" Grid.ColumnSpan="2"/>
+        <Button x:Name="reportButton" Visibility="Hidden" Content="Создать отчёт" Grid.Column="1" HorizontalAlignment="Left" Margin="94,337,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="-0.982,0.062" Click="reportButton_Click"/>
+        <ComboBox x:Name="reportType" Visibility="Hidden" HorizontalAlignment="Left" Margin="10,336,0,0" VerticalAlignment="Top" Width="136" Grid.ColumnSpan="2" SelectedIndex="0">
+            <ComboBoxItem Content="Устройство"/>
+            <ComboBoxItem Content="Папка"/>
+        </ComboBox>
+        <Button x:Name="loginButton" Content="Войти / зарегистрироваться" Click="LoginButton_OnClick" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="252" Grid.ColumnSpan="2" Foreground="#FFFF3B30"/>
+
+    </Grid>
+</Window>
