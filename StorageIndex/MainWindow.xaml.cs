@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,21 +28,35 @@ namespace StorageIndex
 		public static ObservableCollection<User> Users;
 		public static User CurrentUser;
 		public static db_dataContext context = new db_dataContext();
+		public static string ServerName = "loshvitalik-pc";
 
 		public MainWindow()
 		{
 			InitializeComponent();
+			new ServerSelection().ShowDialog();
 			Users = new ObservableCollection<User>();
 			SaveSystem.CreateFilesIfNotPresent();
 			SaveSystem.LoadAll();
 		}
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+		public void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			context.files.Load();
-			context.mediaTypes.Load();
-			context.storage.Load();
-			context.folders.Load();
+			try
+			{
+				context.files.Load();
+				context.mediaTypes.Load();
+				context.storage.Load();
+				context.folders.Load();
+			}
+			catch (Exception)
+			{
+				new Alert("Не удалось подключиться", "Сервер с указанным именем не найден.\nПопробуйте снова")
+					.ShowDialog();
+				new ServerSelection().ShowDialog();
+				Window_Loaded("", new RoutedEventArgs());
+				return;
+			}
+
 			System.Windows.Data.CollectionViewSource storageViewSource =
 				((System.Windows.Data.CollectionViewSource) (this.FindResource("storageViewSource")));
 			// Загрузите данные, установив свойство CollectionViewSource.Source:
@@ -61,7 +78,7 @@ namespace StorageIndex
 				foldersDataGrid.ItemsSource =
 					context.folders.Local.Where(f =>
 						context.storage.First(s => ((storage) storageDataGrid.SelectedItem).id == s.id).folders
-							.Contains(f));
+							.Contains(f)).ToList();
 			filesDataGrid.ItemsSource = new List<files>();
 		}
 
@@ -70,7 +87,9 @@ namespace StorageIndex
 			filesDataGrid.ItemsSource = foldersDataGrid.SelectedItem == null
 				? new List<files>()
 				: context.files.Local.Where(f =>
-					context.folders.First(s => ((folders) foldersDataGrid.SelectedItem).id == s.id).files.Contains(f));
+						context.folders.First(s => ((folders) foldersDataGrid.SelectedItem).id == s.id).files
+							.Contains(f))
+					.ToList();
 		}
 
 		private void SaveButton_OnClick(object sender, RoutedEventArgs e)
@@ -164,6 +183,11 @@ namespace StorageIndex
 		private void AddFileButton_OnClick(object sender, RoutedEventArgs e)
 		{
 			new AddFileWindow().Show();
+		}
+
+		private void SetAdminRights_OnClick(object sender, RoutedEventArgs e)
+		{
+			new AdminRightsWindow().Show();
 		}
 	}
 }

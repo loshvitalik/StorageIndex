@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <Label x:Name="label" Content="Тип" Grid.Row="0" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" />
-        <ComboBox x:Name="typeList" Grid.Row="1" FontSize="16" Background="White" BorderBrush="#FFC8C7CC" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center">
+        <ComboBox x:Name="typeList" SelectionChanged="TypeList_OnSelectionChanged" Grid.Row="1" FontSize="16" Background="White" BorderBrush="#FFC8C7CC" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center">
         </ComboBox>
         <Label x:Name="label2" Content="Название" Grid.Row="2" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" />
         <TextBox x:Name="textBoxName" Grid.Row="3" Margin="4" Background="White" BorderBrush="#FFC8C7CC" FontSize="16" VerticalContentAlignment="Center" />

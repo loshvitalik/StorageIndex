@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -55,25 +56,7 @@ namespace StorageIndex
 			Window.addDeviceButton.Visibility = Visibility.Hidden;
 			Window.addFolderButton.Visibility = Visibility.Hidden;
 			Window.addFileButton.Visibility = Visibility.Hidden;
-		}
-
-		public static void ChangePassword(string oldPassword, string newPassword)
-		{
-			if (EncryptString(oldPassword) == CurrentUser.Password)
-			{
-				CurrentUser.Password = Users.First(u => u.Id == CurrentUser.Id).Password = EncryptString(newPassword);
-				SaveSystem.SaveUsersToFile();
-			}
-			else
-				new Alert("Пароли не совпадают", "Текущий пароль введён неверно").Show();
-		}
-
-		public static void DeleteAccount(User userToDelete)
-		{
-			if (userToDelete.Id == CurrentUser.Id)
-				LogOut();
-			Users.Remove(Users.First(u => u.Id == userToDelete.Id));
-			SaveSystem.SaveAll();
+			Window.setAdminRights.Visibility = Visibility.Hidden;
 		}
 
 		private static void SetCommonRights()
@@ -82,6 +65,12 @@ namespace StorageIndex
 			Window.loginButton.Foreground = new SolidColorBrush(Color.FromRgb(0, 122, 255));
 			Window.reportType.Visibility = Visibility.Visible;
 			Window.reportButton.Visibility = Visibility.Visible;
+
+			//context = new db_dataContext(
+			//	@"metadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;provider=System.Data.SqlClient;provider connection string=""data source=" +
+			//	ServerName +
+			//	@";initial catalog=db_data;user id=" + CurrentUser.DbLogin + ";password=" + CurrentUser.DbPassword + ";MultipleActiveResultSets=True;App=EntityFramework");
+			//Window.Window_Loaded("", new RoutedEventArgs());
 		}
 
 		private static void SetAdminRights()
@@ -91,6 +80,7 @@ namespace StorageIndex
 			Window.addDeviceButton.Visibility = Visibility.Visible;
 			Window.addFolderButton.Visibility = Visibility.Visible;
 			Window.addFileButton.Visibility = Visibility.Visible;
+			Window.setAdminRights.Visibility = Visibility.Visible;
 		}
 
 

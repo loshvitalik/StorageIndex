@@ -39,7 +39,7 @@ namespace StorageIndex
 		private void AddButtonClick(object sender, RoutedEventArgs e)
 		{
 			string deviceName = deviceList.SelectedItem.ToString() == "(выбранное)"
-				? ((folders)window.storageDataGrid.SelectedItem).name
+				? ((storage)window.storageDataGrid.SelectedItem).name
 				: deviceList.SelectedItem.ToString();
 			if (textBoxName.Text == "" || textBoxName.Text.Length > 100)
 			{

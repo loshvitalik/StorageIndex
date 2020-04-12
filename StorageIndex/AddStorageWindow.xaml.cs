@@ -27,7 +27,9 @@ namespace StorageIndex
 			{
 				typeList.Items.Add(type);
 			}
-			
+
+			typeList.Items.Add("(новый...)");
+
 		}
 
 		private void AddButtonClick(object sender, RoutedEventArgs e)
@@ -35,7 +37,7 @@ namespace StorageIndex
 
 			if (textBoxName.Text == "" || textBoxSize.Text == "" ||
 			    textBoxName.Text.Length > 100 || 
-			    !int.TryParse(textBoxSize.Text, out var size))
+			    !int.TryParse(textBoxSize.Text, out _))
 			{
 				new Alert("Неверно введены данные", "Не полностью введены данные. Устройство добавлено не будет").Show();
 				return;
@@ -45,6 +47,22 @@ namespace StorageIndex
 			context.storage.Add(device);
 			context.SaveChanges();
 			Close();
+		}
+
+		private void TypeList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (typeList.SelectedIndex == -1) return;
+			if (typeList.SelectedItem.ToString() == "(новый...)")
+			{
+				new AddTypeWindow().ShowDialog();
+				typeList.Items.Clear();
+				foreach (var type in context.mediaTypes.ToList().Select(t => t.name))
+				{
+					typeList.Items.Add(type);
+				}
+
+				typeList.Items.Add("(новый...)");
+			}
 		}
 	}
 }

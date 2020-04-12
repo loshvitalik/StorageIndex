@@ -19,7 +19,11 @@ namespace StorageIndex
             : base("name=db_dataContext")
         {
         }
-    
+        public db_dataContext(string connectionString) : base(connectionString)
+        {
+
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

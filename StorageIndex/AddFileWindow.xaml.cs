@@ -31,7 +31,14 @@ namespace StorageIndex
 				folderList.SelectedIndex = 0;
 			}
 
-			foreach (var folder in context.folders.ToList().Select(f => f.name))
+			var folders = context.folders.ToList().Select(f => f.name);
+			if (window.storageDataGrid.SelectedIndex != -1)
+			{
+				var device = (storage) window.storageDataGrid.SelectedItem;
+				folders = context.folders.ToList().Where(e => device.folders.Contains(e)).Select(f => f.name);
+			}
+
+			foreach (var folder in folders)
 			{
 				folderList.Items.Add(folder);
 			}

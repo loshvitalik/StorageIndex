@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StorageIndex"
         mc:Ignorable="d"
-        Title="Storage index" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Storage Index" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="storageViewSource" d:DesignSource="{d:DesignInstance {x:Type local:storage}, CreateList=True}"/>
         <CollectionViewSource x:Key="foldersViewSource" d:DesignSource="{d:DesignInstance {x:Type local:folders}, CreateList=True}"/>
@@ -28,7 +28,7 @@
                 <DataGridTextColumn x:Name="capacityMbColumn" Binding="{Binding capacityMb}" Header="Ёмкость (МБ)" Width="SizeToHeader"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="foldersDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding Source={StaticResource foldersViewSource}}" Margin="197,62,352,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1" SelectionChanged="foldersDataGrid_SelectionChanged">
+        <DataGrid x:Name="foldersDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding}" Margin="197,62,352,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1" SelectionChanged="foldersDataGrid_SelectionChanged">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="DeleteFolder" Header="Удалить" Click="DeleteFolder_OnClick" />
@@ -38,12 +38,13 @@
                 <DataGridTextColumn x:Name="nameColumn1" Binding="{Binding name}" Header="Имя папки" Width="SizeToHeader"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="filesDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding Source={StaticResource filesViewSource}}" Margin="375,62,10,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1">
+        <DataGrid x:Name="filesDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding
+            }" Margin="375,62,10,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1">
             <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Name="DeleteFile" Header="Удалить" Click="DeleteFile_OnClick" />
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="DeleteFile" Header="Удалить" Click="DeleteFile_OnClick" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="nameColumn2" Binding="{Binding name}" Header="Имя файла" Width="SizeToHeader"/>
                 <DataGridTextColumn x:Name="extensionColumn" Binding="{Binding extension}" Header="Расширение" Width="SizeToHeader"/>
@@ -67,6 +68,7 @@
         <Button x:Name="addDeviceButton" Visibility="Hidden" Content="Добавить" Click="AddDeviceButton_OnClick" Grid.Column="1" HorizontalAlignment="Left" Margin="28,324,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="addFolderButton" Visibility="Hidden" Content="Добавить" Click="AddFolderButton_OnClick" Grid.Column="1" HorizontalAlignment="Left" Margin="245,324,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="addFileButton" Visibility="Hidden" Content="Добавить" Click="AddFileButton_OnClick" Grid.Column="1" HorizontalAlignment="Left" Margin="512,324,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="setAdminRights" Content="Назначить пользователя администратором..." Click="SetAdminRights_OnClick" Visibility="Hidden" Grid.Column="1" HorizontalAlignment="Left" Margin="375,10,0,0" VerticalAlignment="Top" Width="337"/>
 
     </Grid>
 </Window>

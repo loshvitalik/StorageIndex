@@ -38,7 +38,7 @@ namespace StorageIndex
 		}
 
 		public int Id { get; }
-		public Type Group { get; }
+		public Type Group { get; set; }
 		public string Login { get; }
 		public string Password { get; set; }
 		public string DbLogin { get; set; }
