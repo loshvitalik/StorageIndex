@@ -71,6 +71,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddFileWindow.xaml.cs">
+      <DependentUpon>AddFileWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddFolderWindow.xaml.cs">
+      <DependentUpon>AddFolderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddStorageWindow.xaml.cs">
+      <DependentUpon>AddStorageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Alert.xaml.cs">
       <DependentUpon>Alert.xaml</DependentUpon>
     </Compile>
@@ -99,6 +108,18 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
+    <Page Include="AddFileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddFolderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddStorageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Alert.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

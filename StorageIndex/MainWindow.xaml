@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StorageIndex"
         mc:Ignorable="d"
-        Title="Storage index" Height="401.742" Width="800" Loaded="Window_Loaded">
+        Title="Storage index" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="storageViewSource" d:DesignSource="{d:DesignInstance {x:Type local:storage}, CreateList=True}"/>
         <CollectionViewSource x:Key="foldersViewSource" d:DesignSource="{d:DesignInstance {x:Type local:folders}, CreateList=True}"/>
@@ -17,25 +17,40 @@
             <ColumnDefinition Width="361*"/>
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="storageDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding}" Margin="10,62,530,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.ColumnSpan="2" SelectionChanged="storageDataGrid_SelectionChanged">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="DeleteStorage" Header="Удалить" Click="DeleteStorage_OnClick" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="nameColumn" Binding="{Binding name}" Header="Название" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="typeColumn" Binding="{Binding type}" Header="Тип" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="typeColumn" Binding="{Binding mediaTypes.name}" Header="Тип" Width="SizeToHeader"/>
                 <DataGridTextColumn x:Name="capacityMbColumn" Binding="{Binding capacityMb}" Header="Ёмкость (МБ)" Width="SizeToHeader"/>
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid x:Name="foldersDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding Source={StaticResource foldersViewSource}}" Margin="197,62,352,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1" SelectionChanged="foldersDataGrid_SelectionChanged">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="DeleteFolder" Header="Удалить" Click="DeleteFolder_OnClick" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="nameColumn1" Binding="{Binding name}" Header="Имя папки" Width="SizeToHeader"/>
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid x:Name="filesDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" SelectionMode="Single" ItemsSource="{Binding Source={StaticResource filesViewSource}}" Margin="375,62,10,80" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.Column="1">
+            <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="DeleteFile" Header="Удалить" Click="DeleteFile_OnClick" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="nameColumn2" Binding="{Binding name}" Header="Имя файла" Width="SizeToHeader"/>
                 <DataGridTextColumn x:Name="extensionColumn" Binding="{Binding extension}" Header="Расширение" Width="SizeToHeader"/>
                 <DataGridTextColumn x:Name="sizeKbColumn" Binding="{Binding sizeKb}" Header="Размер (кБ)" Width="SizeToHeader"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="saveButton" Visibility="Hidden" Content="Сохранить изменения" Grid.Column="1" HorizontalAlignment="Left" Margin="502,338,0,0" VerticalAlignment="Top" Width="210" Click="SaveButton_OnClick"/>
+        <Button x:Name="saveButton" Visibility="Hidden" Content="Сохранить изменения" Grid.Column="1" HorizontalAlignment="Left" Margin="502,369,0,0" VerticalAlignment="Top" Width="210" Click="SaveButton_OnClick"/>
         <ComboBox x:Name="searchType" Grid.Column="1" HorizontalAlignment="Left" Margin="502,36,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0">
             <ComboBoxItem Content="по устройствам"/>
             <ComboBoxItem Content="по папкам"/>
@@ -43,12 +58,15 @@
         </ComboBox>
         <Button x:Name="searchButton" Content="Поиск" Grid.Column="1" HorizontalAlignment="Left" Margin="637,36,0,0" VerticalAlignment="Top" Width="75" Click="searchButton_Click"/>
         <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="21" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="555" Grid.ColumnSpan="2"/>
-        <Button x:Name="reportButton" Visibility="Hidden" Content="Создать отчёт" Grid.Column="1" HorizontalAlignment="Left" Margin="94,337,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="-0.982,0.062" Click="reportButton_Click"/>
-        <ComboBox x:Name="reportType" Visibility="Hidden" HorizontalAlignment="Left" Margin="10,336,0,0" VerticalAlignment="Top" Width="136" Grid.ColumnSpan="2" SelectedIndex="0">
+        <Button x:Name="reportButton" Visibility="Hidden" Content="Создать отчёт" Grid.Column="1" HorizontalAlignment="Left" Margin="94,369,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="-0.982,0.062" Click="reportButton_Click"/>
+        <ComboBox x:Name="reportType" Visibility="Hidden" HorizontalAlignment="Left" Margin="10,367,0,0" VerticalAlignment="Top" Width="136" Grid.ColumnSpan="2" SelectedIndex="0">
             <ComboBoxItem Content="Устройство"/>
             <ComboBoxItem Content="Папка"/>
         </ComboBox>
         <Button x:Name="loginButton" Content="Войти / зарегистрироваться" Click="LoginButton_OnClick" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="252" Grid.ColumnSpan="2" Foreground="#FFFF3B30"/>
+        <Button x:Name="addDeviceButton" Visibility="Hidden" Content="Добавить" Click="AddDeviceButton_OnClick" Grid.Column="1" HorizontalAlignment="Left" Margin="28,324,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="addFolderButton" Visibility="Hidden" Content="Добавить" Click="AddFolderButton_OnClick" Grid.Column="1" HorizontalAlignment="Left" Margin="245,324,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="addFileButton" Visibility="Hidden" Content="Добавить" Click="AddFileButton_OnClick" Grid.Column="1" HorizontalAlignment="Left" Margin="512,324,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>

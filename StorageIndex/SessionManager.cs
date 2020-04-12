@@ -52,6 +52,9 @@ namespace StorageIndex
 			Window.saveButton.Visibility = Visibility.Hidden;
 			Window.reportType.Visibility = Visibility.Hidden;
 			Window.reportButton.Visibility = Visibility.Hidden;
+			Window.addDeviceButton.Visibility = Visibility.Hidden;
+			Window.addFolderButton.Visibility = Visibility.Hidden;
+			Window.addFileButton.Visibility = Visibility.Hidden;
 		}
 
 		public static void ChangePassword(string oldPassword, string newPassword)
@@ -85,6 +88,9 @@ namespace StorageIndex
 		{
 			Window.Title = "Storage Index — Администратор";
 			Window.saveButton.Visibility = Visibility.Visible;
+			Window.addDeviceButton.Visibility = Visibility.Visible;
+			Window.addFolderButton.Visibility = Visibility.Visible;
+			Window.addFileButton.Visibility = Visibility.Visible;
 		}
 
 

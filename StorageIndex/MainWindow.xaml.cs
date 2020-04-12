@@ -24,7 +24,7 @@ namespace StorageIndex
 	{
 		public static ObservableCollection<User> Users;
 		public static User CurrentUser;
-		private db_dataContext context = new db_dataContext();
+		public static db_dataContext context = new db_dataContext();
 
 		public MainWindow()
 		{
@@ -57,10 +57,11 @@ namespace StorageIndex
 
 		private void storageDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			foldersDataGrid.ItemsSource =
-				context.folders.Local.Where(f =>
-					context.storage.First(s => ((storage) storageDataGrid.SelectedItem).id == s.id).folders
-						.Contains(f));
+			if (storageDataGrid.SelectedItem != null)
+				foldersDataGrid.ItemsSource =
+					context.folders.Local.Where(f =>
+						context.storage.First(s => ((storage) storageDataGrid.SelectedItem).id == s.id).folders
+							.Contains(f));
 			filesDataGrid.ItemsSource = new List<files>();
 		}
 
@@ -104,14 +105,14 @@ namespace StorageIndex
 				case 2:
 					if (foldersDataGrid.SelectedItem == null) return;
 					filesDataGrid.ItemsSource = searchBox.Text == ""
-							? context.files.Local.Where(f =>
-								context.folders.First(s => ((folders) foldersDataGrid.SelectedItem).id == s.id).files
-									.Contains(f))
-							: context.files.Local.Where(f =>
-								context.folders.First(s => ((folders) foldersDataGrid.SelectedItem).id == s.id)
-									.files
-									.Contains(f) &&
-								searchBox.Text.Contains(f.name, StringComparison.OrdinalIgnoreCase));
+						? context.files.Local.Where(f =>
+							context.folders.First(s => ((folders) foldersDataGrid.SelectedItem).id == s.id).files
+								.Contains(f))
+						: context.files.Local.Where(f =>
+							context.folders.First(s => ((folders) foldersDataGrid.SelectedItem).id == s.id)
+								.files
+								.Contains(f) &&
+							searchBox.Text.Contains(f.name, StringComparison.OrdinalIgnoreCase));
 					break;
 			}
 		}
@@ -120,7 +121,8 @@ namespace StorageIndex
 		{
 			if (reportType.SelectedIndex == 0 && storageDataGrid.SelectedIndex == -1) return;
 			if (storageDataGrid.SelectedIndex == -1 && foldersDataGrid.SelectedIndex == -1) return;
-			Report.Create(context, ((storage)storageDataGrid.SelectedItem).name, reportType.SelectedIndex == 0 ? null : ((folders)foldersDataGrid.SelectedItem).name);
+			Report.Create(context, ((storage) storageDataGrid.SelectedItem).name,
+				reportType.SelectedIndex == 0 ? null : ((folders) foldersDataGrid.SelectedItem).name);
 		}
 
 		private void LoginButton_OnClick(object sender, RoutedEventArgs e)
@@ -129,6 +131,39 @@ namespace StorageIndex
 				new LoginWindow().Show();
 			else
 				SessionManager.LogOut();
+		}
+
+		private void DeleteFile_OnClick(object sender, RoutedEventArgs e)
+		{
+			context.files.Remove(context.files.ToList().First(f => f == (files) filesDataGrid.SelectedItem));
+			filesDataGrid.Items.Refresh();
+		}
+
+		private void DeleteFolder_OnClick(object sender, RoutedEventArgs e)
+		{
+			context.folders.Remove(context.folders.ToList().First(f => f == (folders) foldersDataGrid.SelectedItem));
+			foldersDataGrid.Items.Refresh();
+		}
+
+		private void DeleteStorage_OnClick(object sender, RoutedEventArgs e)
+		{
+			context.storage.Remove(context.storage.ToList().First(s => s == (storage) storageDataGrid.SelectedItem));
+			storageDataGrid.Items.Refresh();
+		}
+
+		private void AddDeviceButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			new AddStorageWindow().Show();
+		}
+
+		private void AddFolderButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			new AddFolderWindow().Show();
+		}
+
+		private void AddFileButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			new AddFileWindow().Show();
 		}
 	}
 }
