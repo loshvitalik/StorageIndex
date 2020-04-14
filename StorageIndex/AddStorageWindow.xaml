@@ -32,7 +32,7 @@
         </ComboBox>
         <Label x:Name="label2" Content="Название" Grid.Row="2" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" />
         <TextBox x:Name="textBoxName" Grid.Row="3" Margin="4" Background="White" BorderBrush="#FFC8C7CC" FontSize="16" VerticalContentAlignment="Center" />
-        <Label x:Name="label4" Content="Ёмкость" Grid.Row="4" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" />
+        <Label x:Name="label4" Content="Ёмкость (МБ)" Grid.Row="4" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" />
         <TextBox x:Name="textBoxSize" Grid.Row="5" Margin="4" Background="White" BorderBrush="#FFC8C7CC" FontSize="16" VerticalContentAlignment="Center" />
         <Button x:Name="addButton" Content="Добавить" Click="AddButtonClick" Grid.Row="6" Margin="2" />
     </Grid>
